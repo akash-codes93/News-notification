@@ -57,7 +57,11 @@ class Headlines:
     def get_response_data(self):
 
         url = self.main_api + urllib.parse.urlencode(self.dict)
-        response = requests.get(url)
+        try:
+            response = requests.get(url)
+        except:
+            self.ballontip("Connection Error!!","News")
+            exit(0)
 
         return response
 
@@ -85,7 +89,7 @@ class Headlines:
         except:
             hicon = LoadIcon(0, win32con.IDI_APPLICATION)
         flags = NIF_ICON | NIF_MESSAGE | NIF_TIP
-        nid = (self.hwnd, 0, flags, win32con.WM_USER + 20, hicon, "tooltip")
+        nid = (self.hwnd, 0, flags, win32con.WM_USER + 20, hicon, "News")
         Shell_NotifyIcon(NIM_ADD, nid)
         Shell_NotifyIcon(NIM_MODIFY,(self.hwnd, 0, NIF_INFO, win32con.WM_USER + 20, hicon, "Balloon  tooltip", title, 500, msg))
         # self.show_balloon(title, msg)
